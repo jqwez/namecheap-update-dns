@@ -1,4 +1,4 @@
-#Namecheap Update DNS
+# Namecheap Update DNS
 
 ### Automatically Update DNS Records
 
