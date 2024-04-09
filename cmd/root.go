@@ -15,6 +15,7 @@ var rootCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(runCmd)
 	rootCmd.AddCommand(configCmd)
+	rootCmd.AddCommand(getIpCmd)
 }
 
 func Execute() {

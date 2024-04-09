@@ -1,9 +1,9 @@
 package internal
 
 import (
+	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/namecheap/go-namecheap-sdk/v2/namecheap"
@@ -13,13 +13,29 @@ func init() {
 	godotenv.Load()
 }
 
-func UpdateRecords() {
-	client := newClientFromEnv()
+func UpdateRecords(ac *AppConfig) {
+	client := newClientFromConfig(ac)
 	config := &ReplaceRecordsConfig{
-		DomainName: os.Getenv("NM_DOMAIN"),
-		Targets:    strings.Split(os.Getenv("NM_TARGETS"), ";"),
+		DomainName: ac.DomainName,
+		Targets:    ac.Targets,
 	}
-	ReplaceRecords(client, config)
+	err := ReplaceRecords(client, config)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	ac.WriteToDotEnv()
+	fmt.Println("Succesfully updated at Namecheap")
+}
+
+func newClientFromConfig(ac *AppConfig) *namecheap.Client {
+	return namecheap.NewClient(&namecheap.ClientOptions{
+		UserName:   ac.Username,
+		ApiUser:    ac.ApiUser,
+		ApiKey:     ac.ApiKey,
+		ClientIp:   ac.ClientIp,
+		UseSandbox: false,
+	})
 }
 
 func newClientFromEnv() *namecheap.Client {
@@ -64,7 +80,7 @@ func ReplaceRecords(client *namecheap.Client, config *ReplaceRecordsConfig) erro
 		records = append(records, r)
 	}
 
-	setHostsResp, err := client.DomainsDNS.SetHosts(&namecheap.DomainsDNSSetHostsArgs{
+	_, err = client.DomainsDNS.SetHosts(&namecheap.DomainsDNSSetHostsArgs{
 		Domain:    &domainName,
 		Records:   &records,
 		EmailType: response.DomainDNSGetHostsResult.EmailType,
@@ -73,7 +89,6 @@ func ReplaceRecords(client *namecheap.Client, config *ReplaceRecordsConfig) erro
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(setHostsResp)
 	return nil
 }
 
