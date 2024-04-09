@@ -14,7 +14,21 @@ ISPs, especially for residential, may change your IP address without notifying y
 - Enable and retrieve your API token. Add target server to whitelist (Logged in to Namecheap -> Profile -> Tools -> API Access).
 - Either download binary for your system or compile from source (instructions below).
 
-### Status
+### Build & Run from source
+
+```
+git clone https://github.com/jqwez/namecheap-update-dns
+cd namecheap-update-dns
+make
+cd bin
+nm_updatedns config edit
+# Fill out CLI form with your configuration details
+nm_updatedns run
+```
+
+Just add to a service and you're all set!
+
+## Status
 
 The app currently fits my needs and is up and running. However, to deploy, it requires manually setting up a persistent systemd service.
 
