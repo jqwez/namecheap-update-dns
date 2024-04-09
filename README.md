@@ -16,11 +16,10 @@ ISPs, especially for residential, may change your IP address without notifying y
 
 ### Status
 
-The app currently fits my needs and is up and running. However, to deploy, it requires manually writing the .env file and setting up a persistent systemd service.
+The app currently fits my needs and is up and running. However, to deploy, it requires manually setting up a persistent systemd service.
 
 ### TODO
 
 - App periodically runs itself
 - App only calls "Set" when it sees a difference
-- CLI to create config
 - Automatically create service
