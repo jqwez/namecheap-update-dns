@@ -95,7 +95,7 @@ func (ac *AppConfig) WriteToDotEnv() {
 		log.Println(err)
 		log.Fatal("Could not write to env")
 	}
-	fmt.Println("Configuration written succesfully to ./.env")
+	fmt.Println("Successfully upated .env")
 }
 
 func RunEditForm(ac *AppConfig) {

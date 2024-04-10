@@ -25,7 +25,6 @@ func UpdateRecords(ac *AppConfig) {
 		return
 	}
 	ac.WriteToDotEnv()
-	fmt.Println("Succesfully updated at Namecheap")
 }
 
 func newClientFromConfig(ac *AppConfig) *namecheap.Client {
@@ -98,6 +97,7 @@ func ReplaceRecords(client *namecheap.Client, config *ReplaceRecordsConfig) erro
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Succesfully updated at Namecheap")
 	return nil
 }
 
