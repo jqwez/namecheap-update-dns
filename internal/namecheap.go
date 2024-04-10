@@ -63,6 +63,8 @@ func ReplaceRecords(client *namecheap.Client, config *ReplaceRecordsConfig) erro
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	var didChange bool = false
 	var records []namecheap.DomainsDNSHostRecord
 	for _, old := range *response.DomainDNSGetHostsResult.Hosts {
 		mxPref := (uint8)(*old.MXPref)
@@ -75,11 +77,18 @@ func ReplaceRecords(client *namecheap.Client, config *ReplaceRecordsConfig) erro
 			TTL:        old.TTL,
 		}
 		if isTargetName(targets, *r.HostName) {
+			if old.Address != &client.ClientOptions.ClientIp {
+				didChange = true
+			}
 			r.Address = &client.ClientOptions.ClientIp
 		}
 		records = append(records, r)
 	}
 
+	if !didChange {
+		fmt.Println("IP Checked and did not change!")
+		return nil
+	}
 	_, err = client.DomainsDNS.SetHosts(&namecheap.DomainsDNSSetHostsArgs{
 		Domain:    &domainName,
 		Records:   &records,
