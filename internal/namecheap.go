@@ -77,7 +77,7 @@ func ReplaceRecords(client *namecheap.Client, config *ReplaceRecordsConfig) erro
 			TTL:        old.TTL,
 		}
 		if isTargetName(targets, *r.HostName) {
-			if old.Address != &client.ClientOptions.ClientIp {
+			if *old.Address != client.ClientOptions.ClientIp {
 				didChange = true
 			}
 			r.Address = &client.ClientOptions.ClientIp
