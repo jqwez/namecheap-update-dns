@@ -35,5 +35,4 @@ The app currently fits my needs and is up and running. However, to deploy, it re
 ### TODO
 
 - App periodically runs itself
-- App only calls "Set" when it sees a difference
 - Automatically create service
